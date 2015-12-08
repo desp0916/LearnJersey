@@ -1,5 +1,8 @@
 package learn.jersey.services.resources;
 
+import java.io.IOException;
+import java.util.Properties;
+
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.TableName;
@@ -10,7 +13,34 @@ import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.util.Bytes;
 
+import learn.jersey.services.Main;
+
 public class HBaseUtils {
+
+	private static final String HBASE_MASTER = "hbase.master";
+	private static final String HBASE_ZOOKEEPER_PORT = "hbase.zookeeper.property.clientPort";
+	private static final String HBASE_ZOOKEEPER_QUORUM = "hbase.zookeeper.quorum";
+	private static final String HBASE_ZOOKEEPER_ZNODE_PARENT = "zookeeper.znode.parent";
+	private static final String HBASE_TABLE = "aes3g_agg";
+
+	public static boolean initHBase(String table_name) {
+		Properties properties = new Properties();
+		Configuration config;
+		config = HBaseConfiguration.create();
+
+		try {
+			properties.load(Main.class.getResourceAsStream("/config.properties"));
+			config.set(HBASE_MASTER, properties.getProperty(HBASE_MASTER));
+			config.set(HBASE_ZOOKEEPER_PORT, properties.getProperty(HBASE_ZOOKEEPER_PORT));
+			config.set(HBASE_ZOOKEEPER_QUORUM, properties.getProperty(HBASE_ZOOKEEPER_QUORUM));
+			config.set(HBASE_ZOOKEEPER_ZNODE_PARENT, properties.getProperty(HBASE_ZOOKEEPER_ZNODE_PARENT));
+			Connection connection = ConnectionFactory.createConnection(config);
+			Table table = connection.getTable(TableName.valueOf(table_name));
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		}
+		return true;
+	}
 
 	public static void main(String[] args) throws Exception {
 
@@ -58,4 +88,5 @@ public class HBaseUtils {
 			connection.close();
 		}
 	}
+
 }
