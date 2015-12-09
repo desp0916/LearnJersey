@@ -17,13 +17,15 @@ import learn.jersey.services.Main;
 
 public class HBaseUtils {
 
+	public static final String HBASE_TABLE = "aes3g_agg";
+
 	private static final String HBASE_MASTER = "hbase.master";
 	private static final String HBASE_ZOOKEEPER_PORT = "hbase.zookeeper.property.clientPort";
 	private static final String HBASE_ZOOKEEPER_QUORUM = "hbase.zookeeper.quorum";
 	private static final String HBASE_ZOOKEEPER_ZNODE_PARENT = "zookeeper.znode.parent";
-	private static final String HBASE_TABLE = "aes3g_agg";
+	private static Connection connection;
 
-	public static boolean initHBase(String table_name) {
+	public static Connection getConnection() {
 		Properties properties = new Properties();
 		Configuration config;
 		config = HBaseConfiguration.create();
@@ -34,12 +36,13 @@ public class HBaseUtils {
 			config.set(HBASE_ZOOKEEPER_PORT, properties.getProperty(HBASE_ZOOKEEPER_PORT));
 			config.set(HBASE_ZOOKEEPER_QUORUM, properties.getProperty(HBASE_ZOOKEEPER_QUORUM));
 			config.set(HBASE_ZOOKEEPER_ZNODE_PARENT, properties.getProperty(HBASE_ZOOKEEPER_ZNODE_PARENT));
-			Connection connection = ConnectionFactory.createConnection(config);
-			Table table = connection.getTable(TableName.valueOf(table_name));
+			System.setProperty("hadoop.home.dir", "/tmp");
+			connection = ConnectionFactory.createConnection(config);
+//			Table table = connection.getTable(TableName.valueOf(table_name));
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
-		return true;
+		return connection;
 	}
 
 	public static void main(String[] args) throws Exception {

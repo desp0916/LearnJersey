@@ -196,7 +196,7 @@
     function update() {
         fetch();
         if (continueUpdates)
-            setTimeout(update, 60000);
+            setTimeout(update, 10000);
     }
 
     update();
@@ -220,7 +220,7 @@
         today.setSeconds(0);
         today.setMilliseconds(0);
         var timestamp = today.valueOf();
-        var dateurl = "http://localhost:8080/services/LogCount/TotalsForMinute/" + timestamp + "/";
+        var dateurl = "http://localhost:29998/services/LogCount/TotalsForMinute/" + timestamp + "/";
         return dateurl;
     }
 
