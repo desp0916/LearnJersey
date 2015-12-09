@@ -8,7 +8,6 @@ import javax.ws.rs.core.Application;
 
 import org.apache.hadoop.hbase.client.Connection;
 
-import learn.jersey.services.resources.HBaseUtils;
 import learn.jersey.services.resources.LogCount;
 
 @ApplicationPath("/services")
@@ -17,7 +16,7 @@ public class LogServices extends Application {
 	Connection conn;
 
 	public LogServices() {
-		conn = new HBaseUtils().getConnection();
+//		conn = new HBaseUtils().getConnection();
 	}
 
 	@Override
