@@ -163,6 +163,8 @@
 <script>
     var chart;
     var continueUpdates = true;
+    var alreadyFetched = {};
+    
     nv.addGraph(function () {
         chart = nv.models.stackedAreaChart()
                 .x(function(d) { return d[0] })
@@ -196,10 +198,8 @@
     function update() {
         fetch();
         if (continueUpdates)
-            setTimeout(update, 3000);
+            setTimeout(update, 1000);
     }
-
-    update();
 
     $(document).ready(function () {
         $('#updateToggleButton').bind('click', function () {
@@ -213,13 +213,13 @@
 
     });
 
-    var alreadyFetched = {};
-
     function getUrl() {
-        var today = new Date();
-        today.setSeconds(0);
-        today.setMilliseconds(0);
-        var timestamp = today.valueOf();
+        //var today = new Date();
+        //today.setSeconds(0);
+        //today.setMilliseconds(0);
+        //var timestamp = today.valueOf();
+        var timestamp = Math.floor(Date.now() / 1000);
+//        console.log("timestamp: " + timestamp);
         var dateurl = "http://localhost:8080/LearnJersey/services/LogCount/TotalsForMinute/" + timestamp + "/";
         return dateurl;
     }
@@ -276,11 +276,16 @@
         var series = [];
         var keys = [];
         for (key in alreadyFetched) {
+//        	console.log("key: "+ key);
             keys.push(key);
         }
         for (var i = 0; i < keys.length; i++) {
             var newValues = [];
             for (var j = 0; j < alreadyFetched[keys[i]].values.length; j++) {
+//            	console.log("j: " + j);
+            	if (alreadyFetched[keys[i]].values.length >= 30) {
+            		alreadyFetched[keys[i]].values.shift();
+            	}
                 newValues.push([alreadyFetched[keys[i]].values[j].Minute, alreadyFetched[keys[i]].values[j].Total]);
             }
             series.push({
@@ -289,6 +294,9 @@
         }
         return series;
     }
+
+    update();
+
 </script>
 
 </body>
