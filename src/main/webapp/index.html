@@ -198,7 +198,7 @@
     function update() {
         fetch();
         if (continueUpdates)
-            setTimeout(update, 1000);
+            setTimeout(update, 3000);
     }
 
     $(document).ready(function () {
@@ -243,9 +243,10 @@
                         Total: series[i].Total
                     });
                     if (alreadyFetched[series[i].FileName].values.length > 30) {
-                        alreadyFetched[series[i].FileName].values.pop();
+                        alreadyFetched[series[i].FileName].values.shift();
                     }
                 }
+                console.log(series[i].Total);
             }
             d3.select('#chart svg')
                 .datum(getdata())
@@ -283,9 +284,9 @@
             var newValues = [];
             for (var j = 0; j < alreadyFetched[keys[i]].values.length; j++) {
 //            	console.log("j: " + j);
-            	if (alreadyFetched[keys[i]].values.length >= 30) {
-            		alreadyFetched[keys[i]].values.shift();
-            	}
+//            	if (alreadyFetched[keys[i]].values.length >= 30) {
+//            		alreadyFetched[keys[i]].values.shift();
+//            	}
                 newValues.push([alreadyFetched[keys[i]].values[j].Minute, alreadyFetched[keys[i]].values[j].Total]);
             }
             series.push({
