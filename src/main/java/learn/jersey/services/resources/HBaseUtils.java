@@ -58,7 +58,7 @@ public class HBaseUtils {
 		Table table = connection.getTable(TableName.valueOf("aes3g_agg"));
 
 		byte[] family = Bytes.toBytes("min");
-		byte[] qualifier = Bytes.toBytes("18-7");
+		byte[] qualifier = Bytes.toBytes("18-5");
 
 		Get get = new Get(Bytes.toBytes("2015-11-23"));
 		get.addColumn(family, qualifier);

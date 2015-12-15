@@ -1,12 +1,13 @@
 /**
- * localhost:29998/services/LogCount/TotalsForMinute/123444
+ * http://localhost:29998/services/LogCount/TotalsForMinute/123444
+ * http://localhost:29998/services/LogCount/TotalsForMinute/aes3g/1213243
+ * http://localhost:8081/LearnJersey/services/LogCount/TotalsForMinute/aes3g/123454433454
  */
 package learn.jersey.services.resources;
 
 import java.io.IOException;
 import java.util.Random;
 
-import javax.annotation.Resource;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -21,9 +22,6 @@ import org.apache.hadoop.hbase.util.Bytes;
 
 @Path("/LogCount")
 public class LogCount {
-
-	@Resource
-	HBase hb;
 
 	private Connection conn = HBase.getConnection();
 
