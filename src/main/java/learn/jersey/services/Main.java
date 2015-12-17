@@ -26,7 +26,7 @@ import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.moxy.json.MoxyJsonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 
-import learn.jersey.services.resources.HBaseUtils;
+import learn.jersey.services.resources.HBase;
 
 public class Main {
 
@@ -61,7 +61,8 @@ public class Main {
         for(URL url: urls){
         	System.out.println(url.getFile());
         }
-		Connection conn = new HBaseUtils().getConnection();
+
+		Connection conn = HBase.getConnection();
 		if (conn != null) {
 			HttpServer httpServer = startServer();
 //			HttpHandler httpHandler = new CLStaticHttpHandler(HttpServer.class.getClassLoader(), "/webapp/");
