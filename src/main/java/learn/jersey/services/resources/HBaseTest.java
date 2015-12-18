@@ -29,14 +29,14 @@ public class HBaseTest {
 
 			ResultScanner rs = table.getScanner(scan);
 
-			int a = 1;
+			int total = 1;
 			for (Result r = rs.next(); r != null; r = rs.next()) {
 				String sExecTime = new String(r.getValue(family, qExecTime));
 				String sMessage = new String(r.getValue(family, qMessage));
 				System.out.println("execTime: " + sExecTime + ", message: " + sMessage);
-				a++;
+				total++;
 			}
-			System.out.println("Total of the result: " + a);
+			System.out.println("Total of the result: " + total);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -80,15 +80,13 @@ public class HBaseTest {
 			scan.addFamily(family);
 			ResultScanner rs = table.getScanner(scan);
 
-			for (int i = 0; i < 10; i++) {
-				for (Result r = rs.next(); r != null; r = rs.next()) {
-					System.out.println(i);
-					byte[] row = r.getRow();
-					System.out.println(new String(row));
-					// byte[] valueObj = r.getValue(family, qualifier);
-					// String value = new String(valueObj);
-					// System.out.println(value);
-				}
+			for (Result r = rs.next(); r != null; r = rs.next()) {
+				byte[] rowKey = r.getRow();
+//				System.out.println(rowKey);
+				System.out.println(Bytes.toString(rowKey));
+//				byte[] valueObj = r.getValue(family, qualifier);
+//				String value = new String(valueObj);
+//				System.out.println(value);
 			}
 
 		} catch (Exception e) {
@@ -100,9 +98,9 @@ public class HBaseTest {
 	}
 
 	public static void main(String[] args) throws Exception {
-		testAES3G();
-		// testAES3GAGG();
-		// testOpenTSDB();
+//		testAES3G();
+//		 testAES3GAGG();
+		 testOpenTSDB();
 	}
 
 }
