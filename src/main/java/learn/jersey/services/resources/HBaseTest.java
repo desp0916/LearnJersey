@@ -13,7 +13,7 @@ public class HBaseTest {
 
 	// cells in the multiple rows
 	public static void testAES3G() throws Exception {
-		Connection conn = HBase.getConnection();
+		Connection conn = HBase.getInstance().getConnection();
 		Table table = conn.getTable(TableName.valueOf("aes3g"));
 
 		try {
@@ -48,7 +48,7 @@ public class HBaseTest {
 
 	// single cell value
 	public static void testAES3GAGG() throws Exception {
-		Connection conn = HBase.getConnection();
+		Connection conn = HBase.getInstance().getConnection();
 		Table table = conn.getTable(TableName.valueOf("aes3g_agg"));
 
 		byte[] family = Bytes.toBytes("min");
@@ -69,7 +69,7 @@ public class HBaseTest {
 	}
 
 	public static void testOpenTSDB() throws Exception {
-		Connection conn = HBase.getConnection();
+		Connection conn = HBase.getInstance().getConnection();
 		Table table = conn.getTable(TableName.valueOf("tsdb"));
 
 		try {
@@ -99,8 +99,8 @@ public class HBaseTest {
 
 	public static void main(String[] args) throws Exception {
 //		testAES3G();
-//		 testAES3GAGG();
-		 testOpenTSDB();
+//		testAES3GAGG();
+		testOpenTSDB();
 	}
 
 }

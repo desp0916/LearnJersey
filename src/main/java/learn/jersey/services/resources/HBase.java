@@ -1,6 +1,10 @@
 /**
+ * Singleton version (double-checked locking)
+ * http://openhome.cc/Gossip/DesignPattern/SingletonPattern.htm
+ *
  * Context 事件、傾聽器
  * http://openhome.cc/Gossip/ServletJSP/ContextEventListener.html
+ *
  */
 package learn.jersey.services.resources;
 
@@ -16,15 +20,15 @@ import learn.jersey.services.Main;
 
 public class HBase {
 
-	public static final String HBASE_TABLE = "aes3g_agg";
 	private static final String HBASE_MASTER = "hbase.master";
 	private static final String HBASE_ZOOKEEPER_PORT = "hbase.zookeeper.property.clientPort";
 	private static final String HBASE_ZOOKEEPER_QUORUM = "hbase.zookeeper.quorum";
 	private static final String HBASE_ZOOKEEPER_ZNODE_PARENT = "zookeeper.znode.parent";
 
-	private static Connection connection = null;
+	private volatile static HBase hbase;
+	private static Connection connection;
 
-	public static Connection getConnection() {
+	private HBase() {
 		Configuration config;
 		config = HBaseConfiguration.create();
 		Properties properties = new Properties();
@@ -40,7 +44,19 @@ public class HBase {
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
+	}
 
+	public static HBase getInstance() {
+		// double-checked locking
+		if (hbase == null) {
+			synchronized (HBase.class) {
+				hbase = new HBase();
+			}
+		}
+		return hbase;
+	}
+
+	public Connection getConnection() {
 		return connection;
 	}
 

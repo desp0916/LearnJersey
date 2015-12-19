@@ -199,7 +199,7 @@
     function update() {
         fetch();
         if (continueUpdates)
-            setTimeout(update, 3000);
+            setTimeout(update, 2000);
     }
 
     $(document).ready(function () {
@@ -221,7 +221,7 @@
         //var timestamp = today.valueOf();
         var timestamp = Math.floor(Date.now() / 1000);
 //        console.log("timestamp: " + timestamp);
-        var dateurl = "http://localhost:8080/LearnJersey/services/LogCount/TotalsForMinute/" + timestamp + "/";
+        var dateurl = "http://localhost:8080/LearnJersey/services/LogCount/TotalsForMinute/aes3g/" + timestamp + "/";
         console.log("time: " + timestamp2time(timestamp));
         return dateurl;
     }

@@ -62,7 +62,7 @@ public class Main {
         	System.out.println(url.getFile());
         }
 
-		Connection conn = HBase.getConnection();
+		Connection conn = HBase.getInstance().getConnection();
 		if (conn != null) {
 			HttpServer httpServer = startServer();
 //			HttpHandler httpHandler = new CLStaticHttpHandler(HttpServer.class.getClassLoader(), "/webapp/");
